@@ -23,12 +23,15 @@ class tarefaController {
         tarefa.idUsuario = idUsuario
         res.json(tarefa)
 }
-    static delete(req, res) {
-        const { id } = req.params
-        const tarefa = Tarefa.findById(Number(id))
-        tarefa.delete()
-        res.json(tarefa)
+static delete(req, res) {
+    const { id } = req.params;
+    const tarefa = Tarefa.findById(id);
+    if (!tarefa) {
+        return res.status(404).json({ error: 'Tarefa não encontrado' });
     }
+    Tarefa.delete(id); 
+    res.json({ message: 'Tarefa deletado com sucesso' });
+}
 }
 
 module.exports = tarefaController

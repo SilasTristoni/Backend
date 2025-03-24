@@ -23,6 +23,8 @@ app.delete('/usuario/:id', usuarioController.delete)
 
 app.post('/tarefa', tarefaController.insert)
 app.get('/tarefa', tarefaController.findAll)
+app.put('/tarefa/:id', tarefaController.update)
+app.delete('/tarefa/:id', tarefaController.delete)
 
 
 app.listen(3020, () => {

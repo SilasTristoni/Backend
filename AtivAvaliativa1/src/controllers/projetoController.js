@@ -16,10 +16,13 @@ class projetoController {
         res.json(projeto)
     }
     static delete(req, res) {
-        const { id } = req.params
-        const projeto = Projeto.findById(Number(id))
-        projeto.delete()
-        res.json(projeto)
+        const { id } = req.params;
+        const projeto = Projeto.findById(id);
+        if (!projeto) {
+            return res.status(404).json({ error: 'Projeto não encontrado' });
+        }
+        Projeto.delete(id); 
+        res.json({ message: 'Projeto deletado com sucesso' });
     }
     static findAll(req, res) {
         const projetos = Projeto.fetchAll()  
