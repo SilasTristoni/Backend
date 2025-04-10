@@ -1,30 +1,32 @@
-const tarefas = []
+const { Sequelize, DataTypes } = require('sequelize');
+const database = require('../config/database');
 
-class Tarefa {
-    constructor(id, titulo, status, idProjeto, idUsuario) {
-        this.id = id
-        this.titulo = titulo
-        this.status = status
-        this.idProjeto = idProjeto
-        this.idUsuario = idUsuario
+// Define o modelo Tarefa com Sequelize
+const Tarefa = database.db.define('Tarefa', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    titulo: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    idProjeto: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    idUsuario: {
+        type: DataTypes.INTEGER,
+        allowNull: false
     }
+}, {
+    tableName: 'tarefas' // força o nome da tabela no banco (opcional)
+});
 
-    save() {
-        tarefas.push(this)
-    }
-
-    static fetchAll() {
-        return tarefas
-    }
-    static findById(id) {
-        return tarefas.find(tarefa => tarefa.id == id)
-    }
-    static delete(id) {
-        const index = tarefas.findIndex(tarefa => tarefa.id == id);
-        if (index !== -1) {
-            tarefas.splice(index, 1); 
-        }
-    }
-}
-
-module.exports = Tarefa
+// Exporta o modelo para uso em controllers e rotas
+module.exports = Tarefa;

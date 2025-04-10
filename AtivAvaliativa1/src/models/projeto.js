@@ -1,28 +1,21 @@
-const projetos = []
+const { Sequelize, DataTypes } = require('sequelize');
+const database = require('../config/database');
 
-class Projeto {
-    constructor(id, nome, descricao) {
-        this.id = id
-        this.nome = nome
-        this.descricao = descricao
+// Define o modelo diretamente, sem construtor
+const Projeto = database.db.define('Projeto', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    descricao: {
+        type: DataTypes.STRING
     }
+});
 
-    save() {
-        projetos.push(this)
-    }
-
-    static fetchAll() {
-        return projetos
-    }
-    static findById(id) {
-        return projetos.find(projeto => projeto.id == id)
-    }
-    static delete(id) {
-        const index = projetos.findIndex(projeto => projeto.id == id);
-        if (index !== -1) {
-            projetos.splice(index, 1); 
-        }
-    }
-}
-
-module.exports = Projeto
+// Exporta o modelo para ser usado em controllers e rotas
+module.exports = Projeto;

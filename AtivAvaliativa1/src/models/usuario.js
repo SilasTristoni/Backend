@@ -1,30 +1,29 @@
+const { Sequelize, DataTypes } = require('sequelize');
+const database = require('../config/database');
 
-const usuarios = []
+// Define o modelo Usuario com Sequelize
+const Usuario = database.db.define('Usuario', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+    },
+    senha: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'usuarios' // Define o nome da tabela explicitamente (opcional)
+});
 
-class Usuario {
-    constructor(id, nome, email, senha) {
-        this.id = id
-        this.nome = nome
-        this.email = email
-        this.senha = senha
-    }
-
-    save() {
-        usuarios.push(this)
-    }
-
-    static fetchAll() {
-        return usuarios
-    }
-    static findById(id) {
-        return usuarios.find(usuario => usuario.id == id)
-    }
-    static delete(id) {
-        const index = usuarios.findIndex(usuario => usuario.id == id);
-        if (index !== -1) {
-            usuarios.splice(index, 1); 
-        }
-    }
-}
-
-module.exports = Usuario
+// Exporta o modelo para uso em controllers e rotas
+module.exports = Usuario;
